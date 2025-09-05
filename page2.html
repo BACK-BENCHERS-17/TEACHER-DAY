@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashing Madness - Teachers' Day</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: discoFlash 0.3s linear infinite;
+        }
+
+        @keyframes discoFlash {
+            0% { background-color: #ff0000; }
+            10% { background-color: #ff8000; }
+            20% { background-color: #ffff00; }
+            30% { background-color: #00ff00; }
+            40% { background-color: #00ffff; }
+            50% { background-color: #0000ff; }
+            60% { background-color: #8000ff; }
+            70% { background-color: #ff00ff; }
+            80% { background-color: #ff0080; }
+            90% { background-color: #80ff00; }
+            100% { background-color: #ff0000; }
+        }
+
+        .flash-title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff;
+            animation: blink 0.5s linear infinite;
+            text-align: center;
+            margin: 40px;
+            z-index: 10;
+            position: relative;
+        }
+
+        @keyframes blink {
+            0%, 50% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            25% { 
+                opacity: 0; 
+                transform: scale(1.1);
+            }
+            75% { 
+                opacity: 1; 
+                transform: scale(0.9);
+            }
+        }
+
+        .runaway-btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b9d);
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            position: absolute;
+            animation: buttonGlow 1s ease-in-out infinite alternate;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.5);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        @keyframes buttonGlow {
+            from {
+                box-shadow: 0 0 20px #ff4757, 0 0 40px #ff4757;
+                transform: scale(1);
+            }
+            to {
+                box-shadow: 0 0 30px #ff6b9d, 0 0 60px #ff6b9d;
+                transform: scale(1.05);
+            }
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff4757, #ff6b6b);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+            z-index: 1000;
+            animation: popupShake 0.5s ease infinite;
+            text-align: center;
+            border: 4px solid #fff;
+        }
+
+        @keyframes popupShake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-2deg); }
+            75% { transform: translate(-50%, -50%) rotate(2deg); }
+        }
+
+        .popup-close {
+            background: #fff;
+            color: #ff4757;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .dancing-text {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff;
+            animation: dance 2s ease-in-out infinite;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.2); }
+            50% { transform: rotate(-10deg) scale(0.8); }
+            75% { transform: rotate(5deg) scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .flash-title { font-size: 2.5rem; }
+            .runaway-btn { 
+                padding: 15px 30px; 
+                font-size: 1.4rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="flash-title">Teacher Appreciation Party! 🎊</h1>
+    
+    <div style="background: rgba(255,255,255,0.95); padding: 25px; border-radius: 20px; margin: 20px; text-align: center; position: relative; z-index: 50;">
+        <h2 style="color: #ff6b6b; font-size: 2rem; margin-bottom: 15px;">Dear Teacher Sir/Madam! 😍</h2>
+        <p style="color: #333; font-size: 1.4rem; line-height: 1.5;">
+            Aapki mehnat, patience aur love ke liye humara respect aur gratitude! 
+            Aap hi humare life ke sachhe guide hain! 🙏✨
+            <br><br>
+            <strong style="color: #4ecdc4;">✨ MADE BY 𝗕𝗔𝗖𝗞 ✘ 𝗕𝗘𝗡𝗖𝗛𝗘𝗥𝗦 ✨</strong>
+        </p>
+    </div>
+    
+    <button class="runaway-btn" id="runawayBtn">
+        Aage chalte hain Guruji! 🎯
+    </button>
+
+    <script>
+        const btn = document.getElementById('runawayBtn');
+        let clickCount = 0;
+        let isRunning = false;
+
+        function getRandomPosition() {
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+            return {
+                x: Math.random() * maxX,
+                y: Math.random() * maxY
+            };
+        }
+
+        function moveButton() {
+            if (!isRunning) return;
+            
+            const pos = getRandomPosition();
+            btn.style.left = pos.x + 'px';
+            btn.style.top = pos.y + 'px';
+            
+            setTimeout(moveButton, 1000); // Move every second while running
+        }
+
+        btn.addEventListener('mouseenter', () => {
+            if (clickCount < 3) {
+                isRunning = true;
+                const pos = getRandomPosition();
+                btn.style.left = pos.x + 'px';
+                btn.style.top = pos.y + 'px';
+                btn.textContent = '😊 आपके लिए यहाँ है!';
+                moveButton();
+            }
+        });
+
+        btn.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount >= 3) {
+                isRunning = false;
+                btn.textContent = '🎉 बहुत खुशी! आगे बढ़ते हैं...';
+                btn.style.background = 'linear-gradient(45deg, #00ff00, #00aa00)';
+                setTimeout(() => {
+                    window.location.href = 'page3.html';
+                }, 2000);
+            } else {
+                btn.textContent = `${3 - clickCount} बार और क्लिक करें! 😊`;
+            }
+        });
+
+        // Set initial position
+        const initialPos = getRandomPosition();
+        btn.style.left = initialPos.x + 'px';
+        btn.style.top = initialPos.y + 'px';
+
+        // Create dancing text elements
+        function createDancingText() {
+            const texts = ['💃', '🕺', '🎵', '🎶', '⚡', '🔥', '💥', '🌟'];
+            
+            for (let i = 0; i < 8; i++) {
+                const text = document.createElement('div');
+                text.className = 'dancing-text';
+                text.textContent = texts[i];
+                text.style.left = Math.random() * window.innerWidth + 'px';
+                text.style.top = Math.random() * window.innerHeight + 'px';
+                text.style.animationDelay = Math.random() * 2 + 's';
+                text.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(text);
+                
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    if (text.parentNode) {
+                        text.parentNode.removeChild(text);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Create dancing text every 3 seconds
+        setInterval(createDancingText, 3000);
+        createDancingText(); // Initial dancing text
+
+        // Popup functionality (more frequent)
+        function showPopup() {
+            const messages = [
+                '🙏 Guruji ki jai ho!',
+                '📚 Education hi sabse bada dhan hai!',
+                '🌟 Aapki mehnat rang layegi!',
+                '❤️ Teacher ka respect karo!',
+                '🎓 Knowledge ki light failao!',
+                '✨ BACK ✘ BENCHERS love you!',
+                '😊 Sir/Madam aap awesome ho!'
+            ];
+            
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
+                ${messages[Math.floor(Math.random() * messages.length)]}
+                <br>
+                <button class="popup-close" onclick="this.parentElement.remove()">समझ गए गुरुजी! 🙏</button>
+            `;
+            document.body.appendChild(popup);
+            
+            // Auto remove popup after 4 seconds
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, 4000);
+        }
+
+        // Show popup every 5-8 seconds
+        function schedulePopup() {
+            const delay = Math.random() * 3000 + 5000; // 5-8 seconds
+            setTimeout(() => {
+                showPopup();
+                schedulePopup(); // Schedule next popup
+            }, delay);
+        }
+
+        schedulePopup(); // Start popup schedule
+    </script>
+</body>
+</html>

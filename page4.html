@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Questions - Teachers' Day</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #ffc3a0);
+            background-size: 400% 400%;
+            animation: funnyGradient 4s ease infinite;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes funnyGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 3px solid #ff6b6b;
+            animation: questionBounce 2s ease-in-out infinite;
+            max-width: 600px;
+        }
+
+        @keyframes questionBounce {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+
+        .question-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            animation: titleWiggle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes titleWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            position: relative;
+            height: 80px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,255,136,0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,255,136,0.6);
+        }
+
+        /* Performance optimizations */
+        * {
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        .no-btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b6b);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,71,87,0.4);
+            position: absolute;
+            transition: all 0.1s ease;
+            animation: btnWiggle 0.8s ease-in-out infinite;
+        }
+        
+        @keyframes btnWiggle {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-3deg) scale(1.1); }
+            50% { transform: rotate(3deg) scale(0.9); }
+            75% { transform: rotate(-1deg) scale(1.05); }
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: emojiFloat 3s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+            z-index: 1000;
+            animation: popupWobble 0.5s ease infinite;
+            text-align: center;
+            border: 3px solid #fff;
+        }
+
+        @keyframes popupWobble {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-1deg); }
+            75% { transform: translate(-50%, -50%) rotate(1deg); }
+        }
+
+        .popup-close {
+            background: #fff;
+            color: #ff4757;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .next-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            animation: nextBtnGlow 2s ease-in-out infinite alternate;
+            display: none;
+        }
+
+        @keyframes nextBtnGlow {
+            from { box-shadow: 0 0 20px #4ecdc4; }
+            to { box-shadow: 0 0 30px #44a08d; }
+        }
+
+        @media (max-width: 768px) {
+            .question-title { font-size: 2rem; }
+            .question-text { font-size: 1.4rem; }
+            .button-container { gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <h1 class="question-title">🤔 गुरुजी के बारे में प्रश्न!</h1>
+        <p class="question-text" id="questionText">
+            क्या आप अपने teacher को "Google से भी ज्यादा smart" मानते हैं? 😄
+        </p>
+        
+        <div class="button-container">
+            <button class="yes-btn" onclick="handleYes()">
+                हाँ बिल्कुल! 😍
+            </button>
+            <button class="no-btn" id="noBtn" onmouseover="runAway()" onclick="handleNo()">
+                नहीं 😬
+            </button>
+        </div>
+    </div>
+
+    <button class="next-btn" id="nextBtn" onclick="window.location.href='page5.html'">
+        अगला प्रश्न गुरुजी 📚
+    </button>
+
+    <script>
+        const questions = [
+            "Sir/Madam ko Google Uncle se bhi zyada smart mante ho? 😄",
+            "Kya aapne kabhi teacher ke saamne phone chupaya hai? 📱😅", 
+            "Teacher angry ho jaye toh aap kya karte ho? Hide behind desk? 🙈",
+            "Homework nahi kiya aur teacher ne pucha - kya kahoge? 😰",
+            "Teacher ke jokes pe hasna padta hai ya real mein funny lagte hain? 🤣",
+            "Class mein sleeping aur teacher ne dekh liya - ab kya? 😴💀",
+            "Teacher ko 'Present Sir' kehne mein kitni practice lagi thi? 😂",
+            "Canteen mein teacher mil jaye toh awkward feel hota hai? 🍔😬"
+        ];
+
+        let currentQuestion = 0;
+        let noClickCount = 0;
+        const noBtn = document.getElementById('noBtn');
+        const questionText = document.getElementById('questionText');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function getRandomPosition() {
+            const container = document.querySelector('.button-container');
+            const maxX = container.offsetWidth - noBtn.offsetWidth;
+            const maxY = container.offsetHeight - noBtn.offsetHeight;
+            
+            return {
+                x: Math.random() * maxX,
+                y: Math.random() * maxY
+            };
+        }
+
+        function runAway() {
+            if (noClickCount < 15) {
+                // Make button move faster and more unpredictably
+                const container = document.querySelector('.button-container');
+                const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+                
+                // Random position anywhere on screen
+                const newX = Math.random() * maxX;
+                const newY = Math.random() * maxY;
+                
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+                
+                const funnyTexts = [
+                    "Nope! Bhag raha hun! 🏃‍♂️",
+                    "Pakad ke dikha! 😜", 
+                    "No way Jose! 🙈",
+                    "Bhago yahan se! 🏃‍♀️",
+                    "Impossible mission! 🤸‍♂️",
+                    "Never gonna give you up! 🙅‍♂️",
+                    "Haha! Fast hun main! 😝",
+                    "Not today buddy! 🕺",
+                    "Catch me if you can! 🤪",
+                    "Main Olympic runner hun! 🏃‍♂️💨",
+                    "Teacher se permission lo pehle! 😂",
+                    "No means NO! 🚫",
+                    "Fast & Furious button! 🏎️"
+                ];
+                
+                noBtn.textContent = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+                
+                // Show popup
+                showFunnyPopup();
+                
+                // Make button move every 2 seconds automatically
+                setTimeout(() => {
+                    if (noClickCount < 15) {
+                        runAway();
+                    }
+                }, 2000);
+            }
+        }
+
+        function handleYes() {
+            showSuccessPopup();
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    questionText.textContent = questions[currentQuestion];
+                    resetNoButton();
+                } else {
+                    nextBtn.style.display = 'block';
+                }
+            }, 2000);
+        }
+
+        function handleNo() {
+            noClickCount++;
+            if (noClickCount >= 15) {
+                noBtn.textContent = "Theek hai! Haar gaya main! 😭";
+                noBtn.style.background = "linear-gradient(45deg, #00ff88, #00cc6a)";
+                noBtn.style.animation = "none";
+                setTimeout(() => {
+                    handleYes();
+                }, 1500);
+            } else {
+                // Make more irritating popups
+                showVeryIrritatingPopup();
+                
+                // Make button change size randomly
+                const sizes = ['12px', '18px', '24px', '10px', '20px'];
+                noBtn.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
+                
+                // Change color randomly
+                const colors = [
+                    'linear-gradient(45deg, #ff4757, #ff6b6b)',
+                    'linear-gradient(45deg, #ff9ff3, #ff6b9d)', 
+                    'linear-gradient(45deg, #a29bfe, #6c5ce7)',
+                    'linear-gradient(45deg, #fd79a8, #e84393)'
+                ];
+                noBtn.style.background = colors[Math.floor(Math.random() * colors.length)];
+            }
+        }
+        
+        function showVeryIrritatingPopup() {
+            const messages = [
+                `😂 Attempt ${noClickCount}/15: No button भाग गया फिर से!`,
+                "🏃‍♂️ Main flash से भी fast hun!",
+                "😝 Teachers are awesome, accept kar lo!",
+                "🤣 ${15 - noClickCount} aur tries left! Keep going!",
+                "😜 Haha! Try karte raho!",
+                "🙈 Patience ki testing ho rahi hai!",
+                "😂 No button ka circus chal raha hai!",
+                "🎪 Welcome to the button chase game!",
+                "🎯 Aim better next time!",
+                "🕺 Dance of the No button!"
+            ];
+            
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
+                ${messages[Math.floor(Math.random() * messages.length)]}
+                <br>
+                <button class="popup-close" onclick="this.parentElement.remove()">Arre yaar! 😤</button>
+            `;
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, 3000);
+        }
+
+        function resetNoButton() {
+            noBtn.textContent = "Nahi 😬";
+            noBtn.style.background = "linear-gradient(45deg, #ff4757, #ff6b6b)";
+            noBtn.style.left = "auto";
+            noBtn.style.top = "auto";
+            noClickCount = 0;
+        }
+
+        function showFunnyPopup() {
+            const funnyMessages = [
+                "😂 No button भाग गया!",
+                "🏃‍♂️ पकड़ो उसे!",
+                "😝 Teachers awesome हैं, मान जाइए!",
+                "🤣 No button का marathon!",
+                "😜 गुरुजी का सम्मान करें!",
+                "🙈 Teachers की respect करो!",
+                "😂 No का मतलब... YES!"
+            ];
+            
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
+                ${funnyMessages[Math.floor(Math.random() * funnyMessages.length)]}
+                <br>
+                <button class="popup-close" onclick="this.parentElement.remove()">समझ गए! 😅</button>
+            `;
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, 3000);
+        }
+
+        function showSuccessPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
+                🎉 सही जवाब! Teachers बहुत amazing हैं! 
+                <br>
+                <button class="popup-close" onclick="this.parentElement.remove()">बिल्कुल सही! 😊</button>
+            `;
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, 3000);
+        }
+
+        // Create floating emojis
+        function createFloatingEmojis() {
+            const emojis = ['📚', '✏️', '🍎', '📝', '🎓', '⭐', '💡', '🏆'];
+            
+            for (let i = 0; i < 6; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * window.innerWidth + 'px';
+                emoji.style.top = Math.random() * window.innerHeight + 'px';
+                emoji.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(emoji);
+                
+                setTimeout(() => {
+                    if (emoji.parentNode) {
+                        emoji.parentNode.removeChild(emoji);
+                    }
+                }, 6000);
+            }
+        }
+
+        setInterval(createFloatingEmojis, 4000);
+        createFloatingEmojis();
+    </script>
+</body>
+</html>
